@@ -31,11 +31,10 @@ Label(root, image=noteImage, bg="#32405B").place(x=30, y=15)
 heading=Label(root, text="My Tasks", font="monospace 20 bold", fg="white", bg="#32405B")
 heading.place(x=130, y=20)
 
-# Main
+# Main (Text Entry Box)
 frame=Frame(root,width=400,height=50, bg="white")
 frame.place(x=0, y=180)
 
-## Where you enter text
 task=StringVar()
 task_entry=Entry(frame, width=18, font="monospace 20", bd=0, bg="white", justify="left", textvariable=task)
 task_entry.place(x=10, y=7)
@@ -44,6 +43,19 @@ task_entry.focus()
 button=Button(frame, text="Add", font="monospace 20 bold", width=6, bg="#5A95FF", fg="#fff", bd=0)
 button.place(x=290, y=0)
 
+
+# Listbox
+frame1=Frame(root, bd=3, width=700, height=280, bg="#32405B")
+frame1.pack(pady=(160, 0))
+
+listbox=Listbox(frame1, font="monospace 12", width=40, height=16, bg="#32405B", fg="white", cursor="hand2", selectbackground="#5A95FF")
+listbox.pack(side=LEFT, fill=BOTH, padx=2)
+
+scrollbar=Scrollbar(frame1)
+scrollbar.pack(side=RIGHT, fill=BOTH)
+
+listbox.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=listbox.yview)
 
 
 
