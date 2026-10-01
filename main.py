@@ -9,21 +9,48 @@ root.resizable(False, False)
 
 task_list = []
 
+# Functions
 def openTaskFile():
-    with open("tasklist.txt", "r") as file:
-        tasks = file.readlines()
+    try:
+        global task_list
+        with open("tasklist.txt", "r") as file:
+            tasks = file.readlines()
 
-    for task in tasks:
-        if task != "\n":
-            task_list.append(task.strip())
-            listbox.insert(END, task.strip())
+        for task in tasks:
+            if task!="\n":
+                task_list.append(task.strip())
+                listbox.insert(END, task.strip())
+
+    except:
+        file=open("tasklist.txt", "w")
+        file.close()
+
+
+def addTask():
+    task=task_entry.get()
+    task_entry.delete(0, END)
+
+    if task:
+        with open("tasklist.txt", "a") as file:
+            file.write(task + "\n")
+        task_list.append(task)
+        listbox.insert(END, task)
+
+def deleteTask():
+    task=str(listbox.get(ANCHOR))
+    if task in task_list:
+        task_list.remove(task)
+        with open("tasklist.txt", "w") as file:
+            for task in task_list:
+                file.write(task + "\n")
+        listbox.delete(ANCHOR)
 
 # App icon
-top_icon = PhotoImage(file="Images/image.png")
+top_icon=PhotoImage(file="Images/image.png")
 root.iconphoto(False, top_icon)
 
 # Top bar
-TopImage = PhotoImage(file="Images/topbar.png")
+TopImage=PhotoImage(file="Images/topbar.png")
 Label(root, image=TopImage).pack()
 
 dockImage=PhotoImage(file="Images/dock.png")
@@ -47,7 +74,7 @@ task_entry=Entry(frame, width=18, font="monospace 20", bd=0, bg="white", justify
 task_entry.place(x=10, y=7)
 task_entry.focus()
 
-button=Button(frame, text="Add", font="monospace 20 bold", width=6, bg="#5A95FF", fg="#fff", bd=0)
+button=Button(frame, text="Add", font="monospace 20 bold", width=6, bg="#5A95FF", fg="#fff", bd=0, command=addTask)
 button.place(x=290, y=0)
 
 
@@ -68,6 +95,6 @@ openTaskFile()
 
 # Delete Button
 Delete_icon=PhotoImage(file="Images/delete.png")
-Button(root, image=Delete_icon, bd=0).pack(side=BOTTOM, pady=13)
+Button(root, image=Delete_icon, bd=0, command=deleteTask).pack(side=BOTTOM, pady=13)
 
 root.mainloop()
